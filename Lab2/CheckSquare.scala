@@ -1,46 +1,21 @@
+//Reminder:  4 points, time can/should check the lecture slides scala doc (no StackOverflow or similar copy paste)
+//The solution that looks like C/Java program will win only 2 points. Scala specific features need to be used.
+//  Goal: generate numbers that are not squares of some numbers up to a value N. For N == 11 result should be: 1 2 3 5 6 7 8 10 11 (4 and 9 should not be printed)
+//•       The N should be passed from command line, if nothing is passed then only 50 first natural numbers need to printed
+//•       in IJ, to set cmd line args go to:  Run -> Edit Configurations -> Program arguments, and enter some number there
+
 object CheckSquare {
-  def main(args: Array[String]): Unit= {
-    val userInput = if(args.length > 0) args(0).toInt else 50
-    printListOfNumbers(checkIfSquare(userInput))
-    println("\n")
-
-    val x = Array.ofDim[Int](4,5)
-    for ( i <- 0 until 4; j <- 0 until 5) x(i)(j) = i+j
-
-    printArray(x)
-
-    val y = Array.ofDim[Int](4,5)
-    for ( i <- 0 until 4; j <- 0 until 5) y(i)(j) = i+j + (i-1)
-
-    println("\n")
-    printArray(merge2DArrays(x,y))
+  def main(args : Array[String]) : Unit = {
+    val N = if(args.length>0) args(0).toInt else 50
+    printArray(getSquares(N))
   }
 
-  def checkIfSquare(limit: Int) : Array[Int] = {
-    val checkedInts = for{x <- 1 to limit if Math.sqrt(x)%1 != 0} yield x
-    return checkedInts.toArray
+  def getSquares(n : Int): IndexedSeq[Int]={
+    for{i <- 0 to n; if Math.sqrt(i)%1 != 0} yield i
   }
 
-  def printListOfNumbers(toPrint: Array[Int]) : Unit = {
-    for(x <- 0 until toPrint.length) print(toPrint(x) + " ")
-  }
-
-  def printArray(toPrint: Array[Array[Int]]) : Unit = {
-    for (i <- 0 until toPrint.length){
-      print("| ")
-      for (j <- 0 until toPrint(0).length){
-        print(toPrint(i)(j) + " ")
-      }
-      print("|\n")
-    }
-  }
-
-  def merge2DArrays(arr1: Array[Array[Int]], arr2: Array[Array[Int]]) : Array[Array[Int]] ={
-    val out = Array.ofDim[Int](arr1.length, arr1(0).length)
-    for ( i <- 0 until arr1.length; j <- 0 until arr2(i).length){
-      out(i)(j) = if(arr1(i)(j) > arr2(i)(j)) arr1(i)(j) else arr2(i)(j)
-    }
-    return out
+  def printArray(arr : IndexedSeq[Int]): Unit = {
+    for(i <- arr) print(i + " ")
   }
 
 }
